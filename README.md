@@ -5,7 +5,7 @@ Utilizes [Borg](https://www.borgbackup.org/) Deduplicating archiver with compres
 
 Ideal for quick versioning and prototyping.
 
-##Usage
+## Usage
 
 Flag | Effect
 -|-
