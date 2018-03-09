@@ -65,6 +65,7 @@ do
 done
 
 
-if [ \( $OPTIND == 1 \) -o \( $OPTIND == 2 -a $1 == "-q" \) ]; then
+# This looks bad... Better arguments handling needed
+if [ \( $OPTIND == 1 \) -o \( $OPTIND == 2 -a $1 == "-q" \) -o \( $OPTIND == 3 -a $1 == "-e" \) ]; then
 	main_raversioning
 fi
