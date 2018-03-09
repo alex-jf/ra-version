@@ -14,5 +14,6 @@ Flag | Effect
 -e | Borg encription method
 -l | List versions
 -i | Show archive info
+-d | Copy script into /usr/local/bin/ to make global
 -v | Version
 
