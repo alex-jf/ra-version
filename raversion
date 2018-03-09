@@ -66,6 +66,8 @@ done
 
 
 # This looks bad... Better arguments handling needed
-if [ \( $OPTIND == 1 \) -o \( $OPTIND == 2 -a $1 == "-q" \) -o \( $OPTIND == 3 -a $1 == "-e" \) ]; then
+if [ \( $OPTIND == 1 \) ]; then
+	main_raversioning
+elif [ \( $OPTIND == 2 -a $1 == "-q" \) -o \( $OPTIND == 3 -a $1 == "-e" \) ]; then
 	main_raversioning
 fi
