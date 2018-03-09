@@ -1,0 +1,70 @@
+#!/bin/sh
+
+dir=`pwd`
+
+QUIET=0
+ENCRIPTION="keyfile"
+
+ra_echo(){
+	if [[ $QUIET == 0 ]]; then
+		echo ">\t$@"
+	fi	
+}
+
+init_borg(){
+	borg init -e $ENCRIPTION raversioning
+	ra_echo "ra:versioning" | cat > "$dir/raversioning/raversioning"
+}
+
+create_borg(){
+	ra_echo "Ra:versioning creating archive..."
+	borg create $( (( $QUIET == 0 )) && printf %s '-sp' ) -C zstd raversioning::{now} ./*
+}
+
+list_borg(){
+	borg list raversioning
+}
+
+info_borg(){
+	borg info raversioning
+}
+
+self_install(){
+	ra_echo "Ra:versioning installing globaly..."
+	cp $0 /usr/local/bin/
+	ra_echo "Ra:versioning done."
+}
+
+version(){
+	ra_echo "Ra:version 0.34"
+}
+
+main_raversioning(){
+if [[ -d raversioning ]]; then
+	if [[ -f $dir/raversioning/raversioning ]]; then
+		ra_echo "Ra:versioning found"
+		create_borg
+	fi
+else
+	ra_echo "Ra:versioning initiating..."
+	init_borg
+	create_borg
+fi
+}
+
+while getopts lidvqe: option
+do
+	case "${option}" in
+		l) list_borg;;
+		i) info_borg;;
+		d) self_install;;
+		e) ENCRIPTION=$OPTARG;;
+		q) QUIET=1;;
+		v) version;;
+	esac
+done
+
+
+if [ \( $OPTIND == 1 \) -o \( $OPTIND == 2 -a $1 == "-q" \) ]; then
+	main_raversioning
+fi
